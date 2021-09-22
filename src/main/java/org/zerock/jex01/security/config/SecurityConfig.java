@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.zerock.jex01.security.handler.CustomAccessDeniedHandler;
+import org.zerock.jex01.security.handler.CustomAuthenticationEntryPoint;
 import org.zerock.jex01.security.handler.CustomLoginSuccessHandler;
 import org.zerock.jex01.security.service.CustomUserDetailsService;
 
@@ -40,10 +42,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/sample/doAll").permitAll()
-                .antMatchers("/sample/doMember").access("hasRole('ROLE_MEMBER')")
-                .antMatchers("/sample/doAdmin").access("hasRole('ROLE_ADMIN')");
+
+//        http.authorizeRequests()
+//                .antMatchers("/sample/doAll").permitAll()
+//                .antMatchers("/sample/doMember").access("hasRole('ROLE_MEMBER')")
+//                .antMatchers("/sample/doAdmin").access("hasRole('ROLE_ADMIN')");
 
         http.formLogin().loginPage("/customLogin")
                 .loginProcessingUrl("/login").successHandler(customLoginSuccessHandler());
@@ -53,6 +56,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable(); // 로그아웃 페이지 따로 만들지 않아도 된다. 그냥 logout만 입력하면 되드라.
 
         http.rememberMe().tokenRepository(persistentTokenRepository()).key("khan").tokenValiditySeconds(60*60*24*30);
+
+        http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
+
+        http.exceptionHandling()
+                .authenticationEntryPoint(customAuthenticationEntryPoint());
+    }
+
+    @Bean //스프링쓸때는 객체를 바로쓰지 않고 빈을 생성해서 주입하는 방식을 권장한다.
+    public CustomAccessDeniedHandler customAccessDeniedHandler(){
+        return new CustomAccessDeniedHandler();
+    }
+
+    @Bean
+    public CustomAuthenticationEntryPoint customAuthenticationEntryPoint(){
+        return new CustomAuthenticationEntryPoint();
     }
 
     @Bean

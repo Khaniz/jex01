@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <%@include file="../includes/header.jsp"%>
 
     <!-- Content Wrapper. Contains page content -->
@@ -8,7 +9,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">List Page</h1>
+                        <h1 class="m-0">후리덤 보드!!!</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -37,9 +38,12 @@
                                 <div class="card-header">
                                     <h3 class="card-title">
                                         <i class="ion ion-clipboard mr-1"></i>
-                                        To Do List
+                                        우리 게시판입니다.
                                     </h3>
+
+                                    <security:authorize access="isAuthenticated()">
                                     <button type="submit" class="btn btn-primary btnRegister" style="float:right">글쓰기</button>
+                                    </security:authorize>
                                 </div>
                             </form>
                             <!-- /.card-header -->

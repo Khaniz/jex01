@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.zerock.jex01.security.domain.Member;
+import org.zerock.jex01.security.dto.MemberDTO;
 import org.zerock.jex01.security.mapper.MemberMapper;
 
 @Log4j2
@@ -36,15 +37,16 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("There is no ID");
         }
 
-        String[] authorities = member.getRoleList().stream().map(memberRole -> memberRole.getRole()).toArray(String[]::new);
+        //String[] authorities = member.getRoleList().stream().map(memberRole -> memberRole.getRole()).toArray(String[]::new);
 
-        User result = (User) User.builder()
-                .username(username)
-                .password(member.getMpw())
-                .accountExpired(false)
-                .accountLocked(false)
-                .authorities(authorities)
-                .build();
+        User result = new MemberDTO(member);
+//        User result = (User) User.builder()
+//                .username(username)
+//                .password(member.getMpw())
+//                .accountExpired(false)
+//                .accountLocked(false)
+//                .authorities(authorities)
+//                .build();
 
         return result;
     }

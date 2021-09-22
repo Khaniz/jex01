@@ -1,3 +1,4 @@
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="../includes/header.jsp" %>
 
@@ -44,7 +45,7 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail2">Writer</label>
                                     <input type="text" name="writer" class="form-control" id="exampleInputEmail2"
-                                           placeholder="Enter Writer">
+                                           placeholder="<security:authentication property="principal.mid"></security:authentication>" readonly>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">

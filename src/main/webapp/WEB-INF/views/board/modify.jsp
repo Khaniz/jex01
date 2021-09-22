@@ -94,13 +94,14 @@
                     <!-- /.card -->
                     <div class="uploadResult">
                         <c:forEach items="${boardDTO.files}" var="attach">
-                            <div data-uuid="${attach.uuid}" data-filename="${attach.fileName}" data-uploadpath="${attach.uploadPath}" data-image="${attach.image}">
+
                                 <c:if test="${attach.image}">
-                                    <img src="/viewFile?file=${attach.getThumbnail()}">
+                                    <div data-uuid="${attach.uuid}" data-filename="${attach.fileName}" data-uploadpath="${attach.uploadPath}" data-image="${attach.image}">
+                                    <img src="/viewFile?file=${attach.getThumbnail()}"/>
+                                    <span>${attach.fileName}</span>
+                                    <button onclick="javascript:removeDiv(this)">X</button>
+                                    </div>
                                 </c:if>
-                                <span>${attach.fileName}</span>
-                                <button onclick="javascript:removeDiv(this)">X</button>
-                            </div>
 
                         </c:forEach>
 

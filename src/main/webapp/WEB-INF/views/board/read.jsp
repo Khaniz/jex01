@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@include file="../includes/header.jsp"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -62,8 +63,12 @@
                         <!-- /.card-body -->
 
                         <div class="card-footer">
-                            <button type="button" class="btn btn-default btnList" style="float:left">목록</button>
-                            <button type="button" class="btn btn-info btnMod" style="float:right">수정/삭제</button>
+                            <button type="button" class="btn btn-default btnList">목록</button>
+                            <security:authentication property="principal" var="memberDTO"/>
+                                <c:if test="${boardDTO.writer eq memberDTO.mid}">
+                                    <button type="button" class="btn btn-info btnMod">수정/삭제</button>
+                                </c:if>
+
                         </div>
 
 
@@ -384,9 +389,6 @@
     },false)
 
 
-
-
 </script>
 </body>
 </html>
-
